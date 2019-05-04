@@ -1,4 +1,4 @@
-# Fullstack docker MEXN starter
+# Fullstack docker MERN starter
 
 Project structure:
 - api/
