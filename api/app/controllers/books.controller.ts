@@ -1,5 +1,5 @@
 import express = require('express');
-import BookModel, { Book } from '../models/book';
+import BookModel from '../models/book.model';
 
 export const getBooks = async (
   req: express.Request,
@@ -36,12 +36,19 @@ export const createBook = async (
   res: express.Response,
   next: express.NextFunction
 ): Promise<void> => {
+  const validationResult = await req.getValidationResult();
+  if (!validationResult.isEmpty()) {
+    res.status(500).send(validationResult.array());
+    return;
+  }
+
   const bookToSave = new BookModel({
     name: req.body['name'],
     genre: req.body['genre'],
     year: req.body['year'],
     imageUrl: req.body['imageUrl']
   });
+
   try {
     await bookToSave.save();
     res.status(201).send();
@@ -56,17 +63,8 @@ export const updateBook = async (
   next: express.NextFunction
 ): Promise<void> => {
   try {
-    const book = await BookModel.findById(req.params.id).exec();
-    if (book) {
-      book.name = req.body['name'];
-      book.genre = req.body['genre'];
-      book.year = req.body['year'];
-      book.imageUrl = req.body['imageUrl'];
-      await book.save();
-      res.status(200).send();
-    } else {
-      res.status(404).send();
-    }
+    await BookModel.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).send();
   } catch (findBookError) {
     next(findBookError);
   }
@@ -78,14 +76,22 @@ export const deleteBook = async (
   next: express.NextFunction
 ): Promise<void> => {
   try {
-    const book = await BookModel.findById(req.params.id).exec();
-    if (book) {
-      await book.remove();
-      res.status(200).send();
-    } else {
-      res.status(404).send();
-    }
+    await BookModel.findByIdAndRemove(req.params.id).exec();
+    res.status(200).send();
   } catch (getBookError) {
     next(getBookError);
+  }
+};
+
+export const partiallyUpdateBook = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+): Promise<void> => {
+  try {
+    BookModel.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).send();
+  } catch (partialUpdateError) {
+    next(partialUpdateError);
   }
 };
