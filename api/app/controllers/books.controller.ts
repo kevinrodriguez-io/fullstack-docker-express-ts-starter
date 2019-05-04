@@ -41,14 +41,12 @@ export const createBook = async (
     res.status(500).send(validationResult.array());
     return;
   }
-
   const bookToSave = new BookModel({
     name: req.body['name'],
     genre: req.body['genre'],
     year: req.body['year'],
     imageUrl: req.body['imageUrl']
   });
-
   try {
     await bookToSave.save();
     res.status(201).send();
@@ -89,7 +87,7 @@ export const partiallyUpdateBook = async (
   next: express.NextFunction
 ): Promise<void> => {
   try {
-    BookModel.findByIdAndUpdate(req.params.id, req.body);
+    await BookModel.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).send();
   } catch (partialUpdateError) {
     next(partialUpdateError);
