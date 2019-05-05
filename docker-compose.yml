@@ -1,5 +1,18 @@
 version: "3.5"
 services:
+    client:
+        build: ./client
+        image: webapp-client
+        restart: always
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./client:/client
+            - /client/node_modules
+        links:
+            - api
+        networks:
+            - webappnetwork
     api:
         build: ./api
         image: webapp-api

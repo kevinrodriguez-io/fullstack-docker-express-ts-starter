@@ -3,5 +3,5 @@ WORKDIR /api
 COPY package*.json /api/
 RUN npm install
 COPY . /api/
-EXPOSE 80
+EXPOSE 9000
 CMD ["npm", "start"]
