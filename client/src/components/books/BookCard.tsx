@@ -7,42 +7,50 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Book from '../../models/Book';
 
 const styles = {
   card: {
-    maxWidth: 345
+    maxWidth: 500,
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   media: {
-    height: 140
+    height: 700
   }
 };
 
-const BookCard: React.FC = (props: any) => {
-  const { classes } = props;
+interface BookCardPropTypes {
+  book: Book;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  classes: any;
+}
+
+const BookCard: React.FC<BookCardPropTypes> = (props: BookCardPropTypes) => {
+  const { classes, book } = props;
   return (
     <Card className={classes.card}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
+          image={book.imageUrl}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {book.name}
           </Typography>
           <Typography component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {book.name} - {book.genre} {book.year}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          Edit
         </Button>
         <Button size="small" color="primary">
-          Learn More
+          Remove
         </Button>
       </CardActions>
     </Card>

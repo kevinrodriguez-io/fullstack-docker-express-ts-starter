@@ -1,5 +1,6 @@
 import express = require('express');
 import mongoose = require('mongoose');
+import cors = require('cors');
 import expressValidator = require('express-validator');
 import books from './routes/books.routes';
 
@@ -8,10 +9,11 @@ const mongodbUrl = 'mongodb://mongodb:27017/test';
 
 const main = async (): Promise<void> => {
   try {
-    const mongooseConnection = await mongoose.connect(mongodbUrl, {
+    await mongoose.connect(mongodbUrl, {
       useNewUrlParser: true
     });
     const app = express();
+    app.use(cors());
     app.use(express.json());
     app.use(expressValidator());
     app.use('/books', books);
@@ -23,6 +25,9 @@ const main = async (): Promise<void> => {
     );
   } catch (mongooseConnectionError) {
     console.error(`Error: ${mongooseConnectionError}`);
+    setTimeout((): void => {
+      main();
+    }, 5000);
   }
 };
 main();
