@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import classNames from 'classnames';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -25,16 +25,15 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 
 import Home from '../Home';
 import BookList from '../books/BookList';
+import CreateBook from '../books/CreateBook';
+import ConfirmDeleteBook from '../books/ConfirmDeleteBook';
 
-interface DashboardProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  classes: any;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface DashboardProps extends WithStyles<typeof styles> {}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
   const [state, setState] = useState({
-    open: true
+    open: false
   });
   const { classes } = props;
   const handleDrawerOpen = () => {
@@ -116,7 +115,13 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
           <div className={classes.appBarSpacer} />
           <div>
             <Route exact path="/" component={Home} />
-            <Route path="/books" component={BookList} />
+            <Route exact path="/books/new" component={CreateBook} />
+            <Route
+              exact
+              path="/books/remove/:id"
+              component={ConfirmDeleteBook}
+            />
+            <Route exact path="/books" component={BookList} />
           </div>
         </main>
       </div>
