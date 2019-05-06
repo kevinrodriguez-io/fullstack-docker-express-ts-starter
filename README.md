@@ -25,3 +25,20 @@ Use `docker-compose build` on the main project to build both images for `api/` a
 - Mongoose
   - MongoDB ORM-Like mapper
 
+## Frontend Web App (client/)
+
+### Development dependencies
+- Typescript
+  - Used for compile-time type-checking and other great benefits such as using next-gen javascript features.
+- Eslint
+  - Requires a little bit of setup on vscode, but it is fully integrated with both prettier and typescript.
+- Prettier
+  - Used for code auto-formatting
+
+### Production dependencies
+- React
+- Material UI
+- Axios
+- Redux
+- Redux Thunk
+
