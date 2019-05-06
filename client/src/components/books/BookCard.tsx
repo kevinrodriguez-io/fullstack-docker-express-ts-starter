@@ -42,9 +42,11 @@ const BookCard: React.FC<BookCardPropTypes> = (props: BookCardPropTypes) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
-          Edit
-        </Button>
+        <Link to={`/books/edit/${book._id}`}>
+          <Button size="small" color="primary">
+            Edit
+          </Button>
+        </Link>
         <Link to={`/books/remove/${book._id}`}>
           <Button size="small" color="primary">
             Remove

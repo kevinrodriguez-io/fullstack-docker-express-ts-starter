@@ -4,7 +4,8 @@ import {
   FETCH_BOOKS,
   CREATE_BOOK,
   FETCH_BOOK,
-  DELETE_BOOK
+  DELETE_BOOK,
+  EDIT_BOOK
 } from './books.types';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const fetchBooks = () => async (dispatch: any) => {
@@ -19,6 +20,18 @@ export const createBook = (book: Book) => async (dispatch: any) => {
   await LibraryApi.post<Book>('/books', book);
   dispatch({
     type: CREATE_BOOK
+  });
+  const result = await LibraryApi.get<Book[]>('/books');
+  dispatch({
+    type: FETCH_BOOKS,
+    payload: result.data
+  });
+};
+
+export const editBook = (book: Book) => async (dispatch: any) => {
+  await LibraryApi.put<Book>(`/books/${book._id}`, book);
+  dispatch({
+    type: EDIT_BOOK
   });
   const result = await LibraryApi.get<Book[]>('/books');
   dispatch({

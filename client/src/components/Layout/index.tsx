@@ -27,6 +27,7 @@ import Home from '../Home';
 import BookList from '../books/BookList';
 import CreateBook from '../books/CreateBook';
 import ConfirmDeleteBook from '../books/ConfirmDeleteBook';
+import EditBook from '../books/EditBook';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface DashboardProps extends WithStyles<typeof styles> {}
@@ -121,6 +122,7 @@ const Dashboard: React.FC<DashboardProps> = (props: DashboardProps) => {
               path="/books/remove/:id"
               component={ConfirmDeleteBook}
             />
+            <Route exact path="/books/edit/:id" component={EditBook} />
             <Route exact path="/books" component={BookList} />
           </div>
         </main>
